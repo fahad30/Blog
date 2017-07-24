@@ -13,8 +13,8 @@ def post_create(request):
 
 from django.shortcuts import get_object_or_404
 
-def post_detail(request):
-    instance = get_object_or_404(Post, id=1)
+def post_detail(request, post_id):
+    instance = get_object_or_404(Post, id=post_id)
     context = {
     "title": "Detail",
     "instance": instance
