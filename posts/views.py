@@ -1,19 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Post
-
-def post_create(request):
+from django.shortcuts import get_object_or_404
+def post_create(request, post_id):
     object_list = Post.objects.all()
+    instance = get_object_or_404(Post, id=post_id)
     context = {
-    "object_list": object_list,
     "title": "Create",
-    "user": request.user
+    "instance": instance
     }
     return render(request, 'post_create.html', context)
 
-from django.shortcuts import get_object_or_404
 
 def post_detail(request, post_id):
+    object_list = Post.objects.all()
     instance = get_object_or_404(Post, id=post_id)
     context = {
     "title": "Detail",
@@ -23,31 +23,30 @@ def post_detail(request, post_id):
 
 def post_list(request):
     object_list = Post.objects.all()
+    # instance = get_object_or_404(Post, id=post_id)
     context = {
-    "object_list": object_list,
     "title": "List",
-    "user": request.user
+    "object_list": object_list
     }
     return render(request, 'post_list.html', context)
 
-def post_update(request):
+def post_update(request, post_id):
     object_list = Post.objects.all()
+    instance = get_object_or_404(Post, id=post_id)
     context = {
-    "object_list": object_list,
     "title": "Update",
-    "user": request.user
+    "instance": instance
     }
     return render(request, 'post_update.html', context)
 
-def post_delete(request):
+def post_delete(request, post_id):
     object_list = Post.objects.all()
+    instance = get_object_or_404(Post, id=post_id)
     context = {
-    "object_list": object_list,
-    "title": "delete",
-    "user": request.user
+    "title": "Delete",
+    "instance": instance
     }
     return render(request, 'post_delete.html', context)
-
 
 
 

@@ -5,12 +5,13 @@
     <title>Post Detail</title>
 </head>
 <body>
-    <h1>The Post {{title}} Page</h1>
+    <ol>
+    	<li>{{instance.title}}</li> 
+    	<li>{{instance.content}}</li> 
+    	<li>{{instance.id}}</li> 
 
-    {{instance.title}} <br>
-    {{instance.content}} <br>
-    {{instance.timestamp}} <br>
-    {{instance.updated}} <br>
-    {{instance.id}} <br>
+	 </ol>
+
+	 <a href="{% url 'posts:list' %}"> Go back to list</a>
 </body>
 </html>

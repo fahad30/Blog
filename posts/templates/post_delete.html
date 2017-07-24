@@ -6,12 +6,11 @@
 </head>
 <body>
     <h1>The Post {{title}} Page</h1>
-    {% for object in object_list %}
-        {{object.title}} <br>
-        {{object.content}} <br>
-        {{object.timestamp}} <br>
-        {{object.updated}} <br>
-        {{object.id}} <br>
-    {% endfor %}
+
+    {{instance.title}} <br>
+    {{instance.content}} <br>
+    {{instance.timestamp}} <br>
+    {{instance.updated}} <br>
+    {{instance.id}} <br>
 </body>
-</html>v
+</html>
