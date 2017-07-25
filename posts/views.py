@@ -51,3 +51,36 @@ def post_delete(request, post_id):
     Post.objects.get(id=post_id).delete()
     messages.warning(request, "really")
     return redirect("posts:list")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    

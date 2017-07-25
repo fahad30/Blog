@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Post Detail</title>
-</head>
+{% extends "base.html" %}
+
+{% block head_title %}Detail{% endblock head_title %}
+
+{% block content %}
 <body>
     <ol>
     	<li>{{instance.title}}</li> 
@@ -13,5 +12,4 @@
 	 </ol>
 
 	 <a href="{% url 'posts:list' %}"> Go back to list</a>
-</body>
-</html>
+{% endblcok content %}
