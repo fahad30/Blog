@@ -18,7 +18,7 @@ def post_create(request):
 
 
 def post_detail(request, post_id):
-    object_list = Post.objects.all()
+    object_list = Post.objects.all()#.order_by("-timestamp", "-updated")
     instance = get_object_or_404(Post, id=post_id)
     context = {
     "title": "Detail",
