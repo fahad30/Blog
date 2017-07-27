@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 from .forms import PostForm
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from urllib.parse import quote
 
 def post_create(request):
     form = PostForm(request.POST or None, request.FILES or None)
@@ -22,7 +23,8 @@ def post_detail(request, post_id):
     instance = get_object_or_404(Post, id=post_id)
     context = {
     "title": "Detail",
-    "instance": instance
+    "instance": instance,
+     "share_string": quote(instance.content)
     }
     return render(request, 'post_detail.html', context)
 

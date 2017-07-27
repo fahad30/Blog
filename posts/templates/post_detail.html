@@ -1,15 +1,36 @@
 {% extends "base.html" %}
-
+{% load urlfy %}
 {% block head_title %}Detail{% endblock head_title %}
-
 {% block content %}
-<body>
-    <ol>
-    	<li>{{instance.title}}</li> 
-    	<li>{{instance.content}}</li> 
-    	<li>{{instance.id}}</li> 
+	<div class="row">
+		<div class="col-sm-6">
+    		<div class="thumbnail">
+        		{% if instance.image %}
+     	 	<img src="{{instance.image.url}}" class ="img-responsive">
+        	{% endif %}
+     	 	<div class="caption">
+       	 		<h3>{{instance.title}}<small>{{instance.timestamp|timesince}} ago</small></h3>
+        		<p>{{instance.content|linebreaks}}</p>
+       	    	<p> 
+        			<a href="{% url 'posts:update' post_id=instance.id %}" class="btn btn-success">edit</a> 
+        			<a href="{% url 'posts:delete' post_id=instance.id %}" class="btn btn-danger">delete</a>
+				
+				</p>
+				<a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}">
+					Share on Facebook
+				</a>
 
-	 </ol>
+  				<a href="https://twitter.com/home?status={{instance.content|urlfy|truncatechars:50}}%20http://joincoded.com/">
+					Share on Twitter
+				</a>
+				<a href="https://www.linkedin.com/shareArticle?mini=true&url={{request.build_absolute_uri}}&title={{instance.title|urlfy}}&summary=S{{instance.content|urlfy}}&
+				source={{request.build_absolute_uri}}">
+					Share on Linkedin
+				</a>
+  			</div>
+		</div>
+	</div> 
+</div>
 
 	 <a href="{% url 'posts:list' %}"> Go back to list</a>
 {% endblock content %}
