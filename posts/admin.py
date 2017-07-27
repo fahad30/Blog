@@ -9,7 +9,6 @@ class PostModelAdmin(admin.ModelAdmin):
    list_display_links = ['timestamp']
    list_editable = ["title"]
 
-
 class Meta:
     model = Post
 
