@@ -16,8 +16,11 @@
         		<p>{{x.content|linebreaks|truncatechars:10}}</p>
        	    	<p>
         			<a href="{{x.get_absolute_url}}" class="btn btn-primary">view</a> 
-        			<a href="{% url 'posts:update' post_id=x.id %}" class="btn btn-success">edit</a> 
-        			<a href="{% url 'posts:delete' post_id=x.id %}" class="btn btn-danger">delete</a>
+        			
+              {% if request.user.is_staff or request.user.is_superuser %}
+                 <a href="{% url 'posts:update' slug=x.slug %}" class="btn btn-success">edit</a> 
+        			   <a href="{% url 'posts:delete' slug=x.slug %}" class="btn btn-danger">delete</a>
+               {% endif %}
 				</p>
   			</div>
 		</div>

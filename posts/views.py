@@ -6,8 +6,11 @@ from .forms import PostForm
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from urllib.parse import quote
-
+from django.http import Http404
 def post_create(request):
+    if not (request.user.is_staff or request.user.is_superuser):
+        raise Http404
+
     form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
@@ -18,9 +21,9 @@ def post_create(request):
      }
     return render(request, 'post_create.html', context)
 
-def post_detail(request, post_id):
+def post_detail(request, slug):
     object_list = Post.objects.all()
-    instance = get_object_or_404(Post, id=post_id)
+    instance = get_object_or_404(Post, slug=slug)
     context = {
     "title": "Detail",
     "instance": instance,
@@ -48,8 +51,11 @@ def post_list(request):
     }
     return render(request, 'post_list.html', context)
 
-def post_update(request, post_id):
-    post_object = get_object_or_404(Post, id=post_id)
+def post_update(request, slug):
+    if not (request.user.is_staff or request.user.is_superuser):
+        raise Http404
+
+    post_object = get_object_or_404(Post, slug=slug)
     form = PostForm(request.POST or None, request.FILES or None, instance=post_object)
     if form.is_valid():
         form.save()
@@ -61,7 +67,28 @@ def post_update(request, post_id):
      }
     return render(request, 'post_update.html', context)
 
-def post_delete(request, post_id):
-    Post.objects.get(id=post_id).delete()
+def post_delete(request, slug):
+    if not (request.user.is_staff or request.user.is_superuser):
+        raise Http404
+
+    Post.objects.get(slug=slug).delete()
     messages.warning(request, "really")
     return redirect("posts:list")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
