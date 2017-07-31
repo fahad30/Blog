@@ -13,7 +13,9 @@ def post_create(request):
 
     form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        form.save()
+        obj - form.save(commit=False)
+        obj.author = request.user
+        obj.save()
         messages.success(request, "Done")
         return redirect("posts:list")
     context = {
