@@ -7,6 +7,14 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from urllib.parse import quote
 from django.http import Http404
+from django.utils import timezone
+
+
+
+
+
+
+
 def post_create(request):
     if not (request.user.is_staff or request.user.is_superuser):
         raise Http404
@@ -23,21 +31,44 @@ def post_create(request):
      }
     return render(request, 'post_create.html', context)
 
+
+
+
+
+
+
+
 def post_detail(request, slug):
-    object_list = Post.objects.all()
-    instance = get_object_or_404(Post, slug=slug)
+    obj = get_object_or_404(Post, slug=slug)
+    date = timezone.now().date()
+   
+    if obj.publish > date or obj.draft:
+        if not(request.user.is_staff or request.user.is_superuser):
+            raise Http404 
+    
     context = {
-    "title": "Detail",
-    "instance": instance,
-     "share_string": quote(instance.content)
+    "instance": obj,
+    
     }
     return render(request, 'post_detail.html', context)
 
+
+
+
+
+
+
+
 def post_list(request):
-    object_list = Post.objects.all()#.order_by("-timestamp", "-updated")
-
+    today = timezone.now().date()
+    
+    if request.user.is_staff or request.user.is_superuser:
+        object_list = Post_objects.all()
+    else:
+        object_list = Post.objects.filter(draft=False).filter(publish__lte=today)
+    
+    
     paginator = Paginator(object_list, 5) # Show 25 contacts per page
-
     page = request.GET.get('page')
     try:
         objects = paginator.page(page)
@@ -48,10 +79,16 @@ def post_list(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         objects = paginator.page(paginator.num_pages)
     context = {
-    "title": "List",
-    "object_list": objects
+        "post_list": objects,
+        "today": today,
     }
     return render(request, 'post_list.html', context)
+
+
+
+
+
+
 
 def post_update(request, slug):
     if not (request.user.is_staff or request.user.is_superuser):
@@ -68,6 +105,14 @@ def post_update(request, slug):
         "post_object":post_object,
      }
     return render(request, 'post_update.html', context)
+
+
+
+
+
+
+
+
 
 def post_delete(request, slug):
     if not (request.user.is_staff or request.user.is_superuser):

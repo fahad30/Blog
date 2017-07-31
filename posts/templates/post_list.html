@@ -12,7 +12,9 @@
      	 	<img src="{{x.image.url}}" class ="img-responsive">
         {% endif %}
      	 	<div class="caption">
-       	 		<h3>{{x.title}}<small>{{x.timestamp|timesince}} ago</small></h3>
+       	 		<h3>{{x.title}}<small>{{x.publish|timesince}} ago</small></h3>
+                {% if x.draft %}<h4>Draft</h4>{% endif %}
+                {% if x.publish < today %}<h4>Future Post</h4>{% endif %}
         		<p>{{x.content|linebreaks|truncatechars:10}}</p>
        	    	<p>
         			<a href="{{x.get_absolute_url}}" class="btn btn-primary">view</a> 
